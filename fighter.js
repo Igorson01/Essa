@@ -222,7 +222,7 @@ function animate() {
          player.isAttacking && player.framesCurrent === 4
          ) {
          player.isAttacking = false
-         enemy.health -= 20
+         enemy.health -= 10
          document.querySelector('#enemyHealth').style.width = enemy.health + '%'
     }
     if(player.isAttacking && player.framesCurrent === 4) {
