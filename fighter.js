@@ -69,10 +69,6 @@ const player = new Fighter({
         attack1 : {
             imageSrc: './img/samuraiMack/Attack1.png',
             framesMax: 6
-        },
-        takeHit : {
-            imageSrc: './img/samuraiMack/Take hit.png',
-            framesMax: 4
         }
     },
     attackBox: {
@@ -127,10 +123,6 @@ const enemy = new Fighter({
         attack1 : {
             imageSrc: './img/kenji/Attack1.png',
             framesMax: 4
-        },
-        takeHit : {
-            imageSrc: './img/kenji/Take hit.png',
-            framesMax: 3
         }
     },
     attackBox: {
