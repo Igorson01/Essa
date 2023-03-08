@@ -31,7 +31,7 @@ const shop = new Sprite({
 //player
 const player = new Fighter({
     position: {
-    x:0,
+    x:35,
     y:0
     },
     velocity:{
@@ -93,7 +93,7 @@ const player = new Fighter({
 //enemy 
 const enemy = new Fighter({
     position: { 
-    x:canvas.width - 50,
+    x:canvas.width - 100,
     y:0
     },
     velocity: {
@@ -186,10 +186,10 @@ function animate() {
     // player movement
     player.velocity.x = 0
 
-    if(keys.a.pressed && player.lastKey === 'a') {
+    if(keys.a.pressed && player.lastKey === 'a' && player.position.x >= 0 + 35) {
         player.velocity.x = -5
         player.switchSprite('run')
-    } else if(keys.d.pressed && player.lastKey === 'd') {
+    } else if(keys.d.pressed && player.lastKey === 'd' && player.position.x <= canvas.width - 80) {
         player.velocity.x = 5
         player.switchSprite('run')
     } else {
@@ -209,10 +209,10 @@ function animate() {
     // enemy movement
     enemy.velocity.x = 0
 
-    if(keys.j.pressed && enemy.lastKey === 'j') {
+    if(keys.j.pressed && enemy.lastKey === 'j' && enemy.position.x >= 0 + 10) {
         enemy.velocity.x = -5
         enemy.switchSprite('run')
-    } else if(keys.l.pressed && enemy.lastKey === 'l') {
+    } else if(keys.l.pressed && enemy.lastKey === 'l' && enemy.position.x <= canvas.width - 100) {
         enemy.velocity.x = 5
         enemy.switchSprite('run')
     } else {
@@ -273,6 +273,8 @@ function animate() {
 animate()
 
 window.addEventListener('keydown' ,(event)=>{
+    if(!player.isDead) {
+   
     switch(event.key) {
         // player keys
         case 'd' :
@@ -284,13 +286,19 @@ window.addEventListener('keydown' ,(event)=>{
             player.lastKey = 'a'
             break
          case 'w' :
+         if(player.velocity.y <= 0 && player.position.y >= 300) { 
             player.velocity.y = -20
             keys.w.pressed = true
+            }
             break
          case ' ' :
             player.attack()
             break
-        // enemy keys
+     }
+    }
+    if(!enemy.isDead) { 
+    switch(event.key) { 
+         // enemy keys
          case 'l' :
             keys.l.pressed = true
             enemy.lastKey = 'l'
@@ -300,11 +308,14 @@ window.addEventListener('keydown' ,(event)=>{
             enemy.lastKey = 'j'
             break
          case 'i' :
+            if(enemy.velocity.y <= 0 && enemy.position.y >= 300) {
             enemy.velocity.y = -20
+            }
             break
          case '=' :
             enemy.attack()
             break
+     }
     }
     
 })
