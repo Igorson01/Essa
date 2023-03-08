@@ -2,8 +2,19 @@
     <style>
         *{
             box-sizing:border-box ;
+            font-family: 'Press Start 2P', cursive;
+            
+        }
+        body {
+           display: flex;
+           justify-content: center;
+           align-items: center;
+           background-color: black;
         }
     </style>
+     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 </head>
 <body>
     <!-- red container div-->
@@ -17,17 +28,21 @@
 
         <!-- player health-->
         <div style="position: relative;
-                    height: 30px;
+                    
                      width: 100%; 
                      display: flex; 
                      justify-content:
-                     flex-end;"> 
-        <div style="background-color: yellow;
-                     height: 30px;
-                     width: 100%;"
+                     flex-end;
+                     border: 3px solid;
+                     "> 
+        <div style="background-color: red;
+                     height: 28px;
+                     width: 100%;
+                     border: 0px solid;
+                     "
                      ></div>
         <div id="playerHealth" style="position:absolute;
-                                      background: blue;
+                                      background: green;
                                        top: 0; 
                                        right: 0;
                                        bottom: 0;
@@ -36,25 +51,31 @@
         </div>
 
         <!-- timer-->
-        <div id="timer" style="background-color: red; 
+        <div id="timer" style="background-color: black; 
                                height: 100px; 
                                width: 100px; 
                                flex-shrink: 0; 
                                display: flex; 
                                align-items: center; 
                                justify-content: 
-                               center; "
+                               center;
+                               border: 4px solid;
+                               border-radius: 15px;
+                               font-size: 30px; 
+                               color: white;"
                                >10</div>
 
         <!-- enemy health-->
         <div style="position: relative; 
-                    height: 30px; 
-                    width: 100%; "> 
-        <div style="background-color: yellow;
-                    height: 30px; "
+                     
+                    width: 100%;
+                    border: 3px solid; "> 
+        <div style="background-color: red;
+                    height: 28px;
+                    border: 0px solid; "
                     ></div>
         <div id="enemyHealth" style="position:absolute; 
-                                     background: blue; 
+                                     background: green; 
                                      top: 0; 
                                      right: 0; 
                                      bottom: 0; 
@@ -72,10 +93,14 @@
                 right: 0; 
                 bottom: 0; 
                 left: 0;
-                display: none;"
+                display: none;
+                font-size: 40px;             
+                color: white;
+                "
                 >Tie</div>
 <canvas></canvas>
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js" integrity="sha512-H6cPm97FAsgIKmlBA4s774vqoN24V5gSQL4yBTDOY2su2DeXZVhQPxFK4P6GPdnZqM9fg1G3cMv5wD7e6cFLZQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="js/utils.js"></script>
 <script src="js/classes.js"></script>
 <script src="fighter.js"></script>

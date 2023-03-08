@@ -178,6 +178,8 @@ function animate() {
     c.fillRect(0, 0, canvas.width, canvas.height)
     background.update()
     shop.update()
+    c.fillStyle = 'rgba(255, 255, 255, 0.1)'
+    c.fillRect(0, 0, canvas.width, canvas.height)
     player.update()
     enemy.update()
 
@@ -186,10 +188,10 @@ function animate() {
     // player movement
     player.velocity.x = 0
 
-    if(keys.a.pressed && player.lastKey === 'a' && player.position.x >= 0 + 35) {
+    if(keys.a.pressed && player.lastKey === 'a' && player.position.x >= 0 + 35 && player.position.x <= enemy.position.x + 100) {
         player.velocity.x = -5
         player.switchSprite('run')
-    } else if(keys.d.pressed && player.lastKey === 'd' && player.position.x <= canvas.width - 80) {
+    } else if(keys.d.pressed && player.lastKey === 'd' && player.position.x <= canvas.width - 80 && player.position.x <= enemy.position.x - 100) {
         player.velocity.x = 5
         player.switchSprite('run')
     } else {
@@ -209,10 +211,10 @@ function animate() {
     // enemy movement
     enemy.velocity.x = 0
 
-    if(keys.j.pressed && enemy.lastKey === 'j' && enemy.position.x >= 0 + 10) {
+    if(keys.j.pressed && enemy.lastKey === 'j' && enemy.position.x >= 0 + 10 && enemy.position.x >= player.position.x + 100) {
         enemy.velocity.x = -5
         enemy.switchSprite('run')
-    } else if(keys.l.pressed && enemy.lastKey === 'l' && enemy.position.x <= canvas.width - 100) {
+    } else if(keys.l.pressed && enemy.lastKey === 'l' && enemy.position.x <= canvas.width - 100 && enemy.position.x >= player.position.x - 100) {
         enemy.velocity.x = 5
         enemy.switchSprite('run')
     } else {
@@ -239,8 +241,10 @@ function animate() {
          ) {
          enemy.takeHit()
          player.isAttacking = false
-         enemy.health -= 20
-         document.querySelector('#enemyHealth').style.width = enemy.health + '%'
+         enemy.health -= 25
+         gsap.to('#enemyHealth', {
+            width: enemy.health + '%'
+         })
     }
     if(player.isAttacking && player.framesCurrent === 4) {
         player.isAttacking = false
@@ -258,8 +262,10 @@ function animate() {
          ) {
          player.takeHit()
          enemy.isAttacking = false
-         player.health -= 10
-         document.querySelector('#playerHealth').style.width = player.health + '%'
+         player.health -= 20
+         gsap.to('#playerHealth', {
+            width: player.health + '%'
+         })
     }
 
     //end game based on health
@@ -273,7 +279,7 @@ function animate() {
 animate()
 
 window.addEventListener('keydown' ,(event)=>{
-    if(!player.isDead) {
+    if(!player.isDead && !enemy.isDead) {
    
     switch(event.key) {
         // player keys
@@ -296,7 +302,7 @@ window.addEventListener('keydown' ,(event)=>{
             break
      }
     }
-    if(!enemy.isDead) { 
+    if(!enemy.isDead && !player.isDead) { 
     switch(event.key) { 
          // enemy keys
          case 'l' :
