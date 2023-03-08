@@ -6,7 +6,7 @@ canvas.height = 576
 
 c.fillRect(0, 0, canvas.width, canvas.height)
 
-const gravity = 0.7
+const gravity = 0.9
 
 //background
 const background = new Sprite({
@@ -69,6 +69,14 @@ const player = new Fighter({
         attack1 : {
             imageSrc: './img/samuraiMack/Attack1.png',
             framesMax: 6
+        },
+        takeHit : {
+            imageSrc: './img/samuraiMack/Take Hit.png',
+            framesMax: 4
+        },
+        death : {
+            imageSrc: './img/samuraiMack/Death.png',
+            framesMax: 6
         }
     },
     attackBox: {
@@ -123,6 +131,14 @@ const enemy = new Fighter({
         attack1 : {
             imageSrc: './img/kenji/Attack1.png',
             framesMax: 4
+        },
+        takeHit : {
+            imageSrc: './img/kenji/Take hit.png',
+            framesMax: 3
+        },
+        death : {
+            imageSrc: './img/kenji/Death.png',
+            framesMax: 7
         }
     },
     attackBox: {
@@ -140,6 +156,9 @@ const keys = {
         pressed: false
     },
     d: {
+        pressed: false
+    },
+    w: {
         pressed: false
     },
     j: {
@@ -162,6 +181,8 @@ function animate() {
     player.update()
     enemy.update()
 
+
+    
     // player movement
     player.velocity.x = 0
 
@@ -175,12 +196,15 @@ function animate() {
         player.switchSprite('idle')
     }
 
+    
     // jumping
-    if(player.velocity.y < 0) {
+    if(player.velocity.y < 0 ) {
         player.switchSprite('jump')
+        
     } else if (player.velocity.y > 0) {
         player.switchSprite('fall')
-    }
+        
+    } 
 
     // enemy movement
     enemy.velocity.x = 0
@@ -213,8 +237,9 @@ function animate() {
         }) &&
          player.isAttacking && player.framesCurrent === 4
          ) {
+         enemy.takeHit()
          player.isAttacking = false
-         enemy.health -= 10
+         enemy.health -= 20
          document.querySelector('#enemyHealth').style.width = enemy.health + '%'
     }
     if(player.isAttacking && player.framesCurrent === 4) {
@@ -231,20 +256,23 @@ function animate() {
         }) &&
          enemy.isAttacking
          ) {
+         player.takeHit()
          enemy.isAttacking = false
          player.health -= 10
          document.querySelector('#playerHealth').style.width = player.health + '%'
     }
 
     //end game based on health
-    if(enemy.health <= 0 || player.health <= 0) {
-        determineWinner({player,enemy,timerId})
-    }
+    if(player.health <= 0) {
+        player.death()
+        player.isDead = false
+        
+    } 
 }
 
 animate()
 
-window.addEventListener('keydown' , (event)=>{
+window.addEventListener('keydown' ,(event)=>{
     switch(event.key) {
         // player keys
         case 'd' :
@@ -257,6 +285,7 @@ window.addEventListener('keydown' , (event)=>{
             break
          case 'w' :
             player.velocity.y = -20
+            keys.w.pressed = true
             break
          case ' ' :
             player.attack()
@@ -287,6 +316,10 @@ window.addEventListener('keyup' , (event)=>{
             break
         case 'a' :           
             keys.a.pressed = false
+            break
+        case 'w' :           
+            keys.w.pressed = false
+            
             break
     }
     //enemy keys
