@@ -130,6 +130,14 @@ class Fighter extends Sprite {
             this.switchSprite('takeHit')
         }
     }
+    lifeSteal() {
+        if(this.health < 100 ){
+            this.health += 10
+        } else  {
+            this.health +=0
+        }
+    }
+    
 
     switchSprite(sprite) {
         if(this.image === this.sprites.attack1.image && this.framesCurrent < this.sprites.attack1.framesMax -1) return

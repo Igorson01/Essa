@@ -182,6 +182,7 @@ function animate() {
     c.fillRect(0, 0, canvas.width, canvas.height)
     player.update()
     enemy.update()
+    
 
 
     
@@ -241,7 +242,7 @@ function animate() {
          ) {
          enemy.takeHit()
          player.isAttacking = false
-         enemy.health -= 25
+         enemy.health -= 20
          gsap.to('#enemyHealth', {
             width: enemy.health + '%'
          })
@@ -258,22 +259,20 @@ function animate() {
             rectangle1:enemy,
             rectangle2:player
         }) &&
-         enemy.isAttacking
+         enemy.isAttacking && enemy.health <= 100
          ) {
          player.takeHit()
          enemy.isAttacking = false
-         player.health -= 20
+         player.health -= 10
          gsap.to('#playerHealth', {
             width: player.health + '%'
          })
-    }
-
-    //end game based on health
-    if(player.health <= 0) {
-        player.death()
-        player.isDead = false
-        
+         enemy.lifeSteal()
+         gsap.to('#enemyHealth', {
+            width: enemy.health + '%'
+         })
     } 
+
 }
 
 animate()
