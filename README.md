@@ -1,4 +1,4 @@
-# siemka oj tak tak byczku proste
+# CHARACTER MOVE INSTRUCTION!
 
 character (1) : 
     jump : W  /
