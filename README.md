@@ -1,18 +1,18 @@
 # siemka oj tak tak byczku proste
 
-#character 1 {
-    jump : w/
-    go left : a/
-    go right : d/
-    attack : e/
-    dodge : s/
-} ||
+character (1) : 
+    jump : W  /
+    go left : A  /
+    go right : D  /
+    attack : E  /
+    dodge : S  /
 
 
-#character 2 {
-    jump : i/
-    go left : j/
-    go right : l/
-    attack : o/
-    dodge : k/
-}
+
+character (2) : 
+    jump : I  /
+    go left : J  /
+    go right : L  /
+    attack : O  /
+    dodge : K  /
+
