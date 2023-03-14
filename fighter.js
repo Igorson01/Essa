@@ -77,6 +77,10 @@ const player = new Fighter({
         death : {
             imageSrc: './img/samuraiMack/Death.png',
             framesMax: 6
+        },
+        dodge : {
+            imageSrc: './img/samuraiMack/Attack2.png',
+            framesMax: 6
         }
     },
     attackBox: {
@@ -139,6 +143,10 @@ const enemy = new Fighter({
         death : {
             imageSrc: './img/kenji/Death.png',
             framesMax: 7
+        },
+        dodge : {
+            imageSrc: './img/kenji/Attack2.png',
+            framesMax: 4
         }
     },
     attackBox: {
@@ -158,16 +166,21 @@ const keys = {
     d: {
         pressed: false
     },
-    w: {
-        pressed: false
-    },
     j: {
         pressed: false
     },
     l: {
         pressed: false
+    },
+    k: {
+        pressed: false
+    },
+    s: {
+        pressed: false
     }
 }
+
+
 
 
 decreaseTimer()
@@ -233,33 +246,48 @@ function animate() {
 
     
     //player
-    if(
+    if (
+        keys.k.pressed && enemy.lastKey === 'k') { 
+        enemy.dodge()
+    }
+    else if(
         rectangularCollision({
             rectangle1:player,
             rectangle2:enemy
         }) &&
-         player.isAttacking && player.framesCurrent === 4
+         player.isAttacking && !enemy.isDodging && !keys.k.pressed
          ) {
          enemy.takeHit()
          player.isAttacking = false
          enemy.health -= 20
          gsap.to('#enemyHealth', {
             width: enemy.health + '%'
-         })
+         })  
     }
+    
+
     if(player.isAttacking && player.framesCurrent === 4) {
         player.isAttacking = false
     } else if(enemy.isAttacking && enemy.framesCurrent === 2) {
         enemy.isAttacking = false
         
     }
+    if(player.isDodging && player.framesCurrent === 6) {
+        player.isDodging = false
+    } else if(enemy.isDodging && enemy.framesCurrent === 3) {
+        enemy.isDodging = false
+    }
     //enemy 
-    if(
+    if (
+        keys.s.pressed && enemy.lastKey === 's'){ 
+        player.dodge()
+    }
+    else if(
         rectangularCollision({
             rectangle1:enemy,
             rectangle2:player
         }) &&
-         enemy.isAttacking && enemy.health <= 100
+         enemy.isAttacking && !player.isDodging
          ) {
          player.takeHit()
          enemy.isAttacking = false
@@ -271,7 +299,7 @@ function animate() {
          gsap.to('#enemyHealth', {
             width: enemy.health + '%'
          })
-    } 
+    }
 
 }
 
@@ -296,9 +324,14 @@ window.addEventListener('keydown' ,(event)=>{
             keys.w.pressed = true
             }
             break
-         case ' ' :
+         case 'e' :
             player.attack()
             break
+        case 's' :
+            player.dodge()
+            keys.s.pressed = true
+            break
+        
      }
     }
     if(!enemy.isDead && !player.isDead) { 
@@ -317,8 +350,12 @@ window.addEventListener('keydown' ,(event)=>{
             enemy.velocity.y = -20
             }
             break
-         case '=' :
+         case 'o' :
             enemy.attack()
+            break
+        case 'k' :
+            enemy.dodge()
+            keys.k.pressed = true
             break
      }
     }
@@ -333,10 +370,10 @@ window.addEventListener('keyup' , (event)=>{
         case 'a' :           
             keys.a.pressed = false
             break
-        case 'w' :           
-            keys.w.pressed = false
-            
+        case 's' :           
+            keys.s.pressed = false
             break
+    
     }
     //enemy keys
     switch(event.key) { 
@@ -345,6 +382,9 @@ window.addEventListener('keyup' , (event)=>{
             break
         case 'j' :           
             keys.j.pressed = false
+            break
+        case 'k' :
+            keys.k.pressed = false
             break
     }
     
