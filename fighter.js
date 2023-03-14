@@ -287,7 +287,7 @@ function animate() {
             rectangle1:enemy,
             rectangle2:player
         }) &&
-         enemy.isAttacking && !player.isDodging
+         enemy.isAttacking && !player.isDodging && !keys.s.pressed
          ) {
          player.takeHit()
          enemy.isAttacking = false
