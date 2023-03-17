@@ -177,10 +177,15 @@ const keys = {
     },
     s: {
         pressed: false
+    },
+    r: {
+        pressed: false
+    },
+    p: {
+        pressed: false
     }
 }
-
-
+const projectiles = []
 
 
 decreaseTimer()
@@ -195,6 +200,9 @@ function animate() {
     c.fillRect(0, 0, canvas.width, canvas.height)
     player.update()
     enemy.update()
+    projectiles.forEach(projectile=>{
+        projectile.update()
+    })
     
 
 
@@ -242,8 +250,34 @@ function animate() {
         enemy.switchSprite('fall')
     }
 
-    //detect for collision
-
+    //detect for collision enemy
+    projectiles.forEach(projectile=>{
+        if(projectile.position.y - projectile.radius <= enemy.position.y + enemy.height &&
+            projectile.position.x + projectile.radius >=
+            enemy.position.x && projectile.position.x - projectile.radius <= enemy.position.x + enemy.width&&
+            projectile.position.y + projectile.radius >= enemy.position.y
+            ) {
+                enemy.takeHit()
+                enemy.health -= 0.1
+                gsap.to('#enemyHealth', {
+                width: enemy.health + '%'
+                }) 
+            }
+        })
+    //detect for collision player
+    projectiles.forEach(projectile=>{
+        if(projectile.position.y - projectile.radius <= player.position.y + player.height &&
+            projectile.position.x + projectile.radius >=
+            player.position.x && projectile.position.x - projectile.radius <= player.position.x + player.width&&
+            projectile.position.y + projectile.radius >= player.position.y
+            ) {
+                player.takeHit()
+                player.health -= 0.1
+                gsap.to('#playerHealth', {
+                width: player.health + '%'
+                }) 
+            }
+        })
     
     //player
     if (
@@ -331,6 +365,21 @@ window.addEventListener('keydown' ,(event)=>{
             player.dodge()
             keys.s.pressed = true
             break
+        case 'r' :
+            keys.r.pressed = true
+            projectiles.push(
+            new Projectile({
+                position:{
+                    x:player.position.x  + player.width * 2,
+                    y:player.position.y  + player.height /2
+                },
+                velocity:{
+                    x:10,
+                    y:0
+                }
+            })
+         )
+         break
         
      }
     }
@@ -357,6 +406,21 @@ window.addEventListener('keydown' ,(event)=>{
             enemy.dodge()
             keys.k.pressed = true
             break
+        case 'p' :
+            keys.p.pressed = true
+            projectiles.push(
+            new Projectile({
+                position:{
+                    x:enemy.position.x  - enemy.width ,
+                    y:enemy.position.y  + enemy.height /2
+                },
+                velocity:{
+                    x:-10,
+                    y:0
+                }
+            })
+         )
+         break
      }
     }
     
@@ -373,6 +437,9 @@ window.addEventListener('keyup' , (event)=>{
         case 's' :           
             keys.s.pressed = false
             break
+        case 'r' :           
+            keys.r.pressed = false
+            break
     
     }
     //enemy keys
@@ -385,6 +452,9 @@ window.addEventListener('keyup' , (event)=>{
             break
         case 'k' :
             keys.k.pressed = false
+            break
+        case 'p' :
+            keys.p.pressed = false
             break
     }
     
