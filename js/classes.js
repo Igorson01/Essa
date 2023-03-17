@@ -132,9 +132,9 @@ class Fighter extends Sprite {
         }
     }
     lifeSteal() {
-        if(this.health < 100 ){
+        if(this.health <= 50 ){
             this.health += 10
-        } else  {
+        } else {
             this.health +=0
         }
     }
