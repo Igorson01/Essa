@@ -1,18 +1,1 @@
-# CHARACTER MOVE INSTRUCTION!
-
-character (1) : 
-    jump : W  /
-    go left : A  /
-    go right : D  /
-    attack : E  /
-    dodge : S  /
-
-
-
-character (2) : 
-    jump : I  /
-    go left : J  /
-    go right : L  /
-    attack : O  /
-    dodge : K  /
-
+oj bratku to jest moj giga super ekstra kodzik do mojej super ekstra hiper boskiej gierki 
