@@ -230,7 +230,7 @@ class Projectile{
         this.position = position
         this.velocity = velocity
 
-        this.radius = 40
+        this.radius = 20
     }
     draw() {
         c.beginPath()
